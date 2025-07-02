@@ -1,5 +1,3 @@
 echo "🎯 Husky pre-commit 已觸發！"
 
-. "$(dirname "$0")/_/husky.sh"
-
 npx lint-staged
