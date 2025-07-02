@@ -12,7 +12,7 @@ export default function Home() {
           height={38}
           priority
         />
-        <span>Hello World</span>
+        <span>Hello World！！！</span>
         <ol className="list-inside list-decimal text-center font-[family-name:var(--font-geist-mono)] text-sm/6 sm:text-left">
           <li className="mb-2 tracking-[-.01em]">
             Get started by editing{' '}
