@@ -1,0 +1,82 @@
+[
+    {
+        "id": 1,
+        "title": "EP1｜下班後的自我療癒時間",
+        "description": "一段讓你靜下來的放鬆聲音旅程。",
+        "tags": ["職場", "美食", "焦慮"],
+        "audioUrl": "/audios/ep001.mp3",
+        "coverUrl": "/images/ep001.jpg"
+    },
+    {
+        "id": 2,
+        "title": "EP2｜職場的潛規則，你知道幾條？",
+        "description": "分享我們在工作中觀察到的不成文規矩。",
+        "tags": ["焦慮", "科技", "美食"],
+        "audioUrl": "/audios/ep002.mp3",
+        "coverUrl": "/images/ep002.jpg"
+    },
+    {
+        "id": 3,
+        "title": "EP3｜旅行讓我學會的事",
+        "description": "三個國家的故事，三種成長的方式。",
+        "tags": ["美食", "旅行", "戀愛"],
+        "audioUrl": "/audios/ep003.mp3",
+        "coverUrl": "/images/ep003.jpg"
+    },
+    {
+        "id": 4,
+        "title": "EP4｜我與焦慮和平共處的一週",
+        "description": "這集來聊聊如何與焦慮相處，並找到一點點平靜。",
+        "tags": ["成長", "焦慮", "療癒"],
+        "audioUrl": "/audios/ep004.mp3",
+        "coverUrl": "/images/ep004.jpg"
+    },
+    {
+        "id": 5,
+        "title": "EP5｜那些年我們一起追的影集",
+        "description": "聊 Netflix 神劇，與你共鳴青春回憶。",
+        "tags": ["職場", "美食", "影集"],
+        "audioUrl": "/audios/ep005.mp3",
+        "coverUrl": "/images/ep005.jpg"
+    },
+    {
+        "id": 6,
+        "title": "EP6｜深夜食堂：台灣的味道",
+        "description": "分享來自夜市、巷弄的美食與記憶。",
+        "tags": ["旅行", "成長", "焦慮"],
+        "audioUrl": "/audios/ep006.mp3",
+        "coverUrl": "/images/ep006.jpg"
+    },
+    {
+        "id": 7,
+        "title": "EP7｜你也在迷惘嗎？關於選擇的焦慮",
+        "description": "有些選擇，沒有對錯，只有自己知道值不值得。",
+        "tags": ["戀愛", "放空", "職場"],
+        "audioUrl": "/audios/ep007.mp3",
+        "coverUrl": "/images/ep007.jpg"
+    },
+    {
+        "id": 8,
+        "title": "EP8｜科技冷知識你知道嗎？",
+        "description": "每次讓你成為朋友群中的知識王！",
+        "tags": ["療癒", "焦慮", "影集"],
+        "audioUrl": "/audios/ep008.mp3",
+        "coverUrl": "/images/ep008.jpg"
+    },
+    {
+        "id": 9,
+        "title": "EP9｜戀愛裡的自我價值",
+        "description": "不是每段關係都該繼續，但每段都值得理解。",
+        "tags": ["放空", "影集", "焦慮"],
+        "audioUrl": "/audios/ep009.mp3",
+        "coverUrl": "/images/ep009.jpg"
+    },
+    {
+        "id": 10,
+        "title": "EP10｜週末在家的 5 種過法",
+        "description": "從宅家放空到自我挑戰，一起過不一樣的週末。",
+        "tags": ["成長", "戀愛", "焦慮"],
+        "audioUrl": "/audios/ep010.mp3",
+        "coverUrl": "/images/ep010.jpg"
+    }
+]
