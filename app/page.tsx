@@ -27,6 +27,20 @@ export default function Home() {
         setResults(filtered);
     };
 
+    // const handleSearch = async () => {
+    //     console.log('input', input);
+    //     // const description = '這是一集關於走出焦慮與失落的 podcast，主持人分享自己的真實經歷。';
+
+    //     // const res = await fetch('/api/analyze', {
+    //     //     method: 'POST',
+    //     //     headers: { 'Content-Type': 'application/json' },
+    //     //     body: JSON.stringify({ description }),
+    //     // });
+
+    //     // const data = await res.json();
+    //     // console.log('GPT 分析結果：', data.result);
+    // };
+
     return (
         <main className="mx-auto min-h-screen max-w-xl px-6 py-10 text-[var(--color-secondary-100)]">
             <div className="mb-6 flex items-center justify-center">
