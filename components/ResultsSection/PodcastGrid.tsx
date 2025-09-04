@@ -7,7 +7,7 @@ interface PodcastGridProps {
     episodes: Episode[];
     isLoadingMore: boolean;
     hasMore: boolean;
-    loaderRef: React.RefObject<HTMLDivElement>;
+    loaderRef: React.RefObject<HTMLDivElement | null>;
 }
 
 const PodcastGrid: React.FC<PodcastGridProps> = ({

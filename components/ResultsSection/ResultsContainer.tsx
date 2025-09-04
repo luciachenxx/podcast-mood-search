@@ -15,7 +15,7 @@ interface ResultsContainerProps {
     recommendedKeywords: string[];
     isLoadingMore: boolean;
     hasMore: boolean;
-    loaderRef: React.RefObject<HTMLDivElement>;
+    loaderRef: React.RefObject<HTMLDivElement | null>;
     searchTerm: string;
     onSuggestionClick: (suggestion: string) => void;
     onRetry: () => void;

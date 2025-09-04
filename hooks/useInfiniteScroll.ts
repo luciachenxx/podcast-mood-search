@@ -13,7 +13,7 @@ export const useInfiniteScroll = ({
     isLoadingMore,
     onLoadMore,
 }: UseInfiniteScrollProps) => {
-    const loaderRef = useRef<HTMLDivElement>(null);
+    const loaderRef = useRef<HTMLDivElement | null>(null);
 
     const handleObserver = useCallback(
         (entries: IntersectionObserverEntry[]) => {

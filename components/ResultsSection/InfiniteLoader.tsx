@@ -4,7 +4,7 @@ import { LoadingMore } from '../StateComponents';
 interface InfiniteLoaderProps {
     isLoadingMore: boolean;
     hasMore: boolean;
-    loaderRef: React.RefObject<HTMLDivElement>;
+    loaderRef: React.RefObject<HTMLDivElement | null>;
 }
 
 const InfiniteLoader: React.FC<InfiniteLoaderProps> = ({ isLoadingMore, hasMore, loaderRef }) => {
