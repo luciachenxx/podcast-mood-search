@@ -91,3 +91,38 @@ export const aiUsageCounter = {
         if (used) this.triggered++;
     },
 };
+
+class AIUsageCounter {
+    private ipUsage = new Map<string, { count: number; cost: number; lastReset: number }>();
+
+    checkUsageLimit(ip: string) {
+        const usage = this.ipUsage.get(ip) || { count: 0, cost: 0, lastReset: Date.now() };
+        const oneHour = 60 * 60 * 1000;
+
+        if (Date.now() - usage.lastReset > oneHour) {
+            usage.count = 0;
+            usage.cost = 0;
+            usage.lastReset = Date.now();
+        }
+
+        return {
+            allowed: usage.count < 20 && usage.cost < 1.0,
+            currentUsage: usage.count,
+            resetTime: usage.lastReset + oneHour,
+        };
+    }
+
+    logUsage(ip: string, success: boolean) {
+        if (!this.ipUsage.has(ip)) {
+            this.ipUsage.set(ip, { count: 0, cost: 0, lastReset: Date.now() });
+        }
+
+        const usage = this.ipUsage.get(ip)!;
+        if (success) {
+            usage.count++;
+            usage.cost += 0.01; // 估算成本
+        }
+    }
+}
+
+export const AIUsageCounterCache = new AIUsageCounter();

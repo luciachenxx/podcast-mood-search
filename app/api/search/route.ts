@@ -6,12 +6,35 @@ import { createAuthHeaders } from '@/utils/auth';
 import { expandQueryLocally, shouldUseAiExpansion } from '@/utils/detection';
 import { scoreAndSortResults, addMatchReasons } from '@/utils/scoring';
 import { SearchResponse } from '@/types';
+import { rateLimiter } from '@/lib/rateLimiter';
+import { getClientIP } from '@/lib/ipUtils';
 
 /**
  * 主要 API 處理函數
  */
 export async function GET(request: Request) {
     try {
+        const ip = getClientIP(request as any) || 'unknown';
+        const { allowed, remaining, resetTime } = rateLimiter.check(ip);
+
+        if (!allowed) {
+            return NextResponse.json(
+                {
+                    error: 'Too many requests, please try again later.',
+                    remaining,
+                    resetTime,
+                },
+                {
+                    status: 429,
+                    headers: {
+                        'X-RateLimit-Limit': '10',
+                        'X-RateLimit-Remaining': remaining.toString(),
+                        'X-RateLimit-Reset': resetTime.toString(),
+                    },
+                }
+            );
+        }
+
         // 環境檢查
         const apiKey = process.env.PODCAST_API_KEY!;
         const apiSecret = process.env.PODCAST_API_SECRET!;
