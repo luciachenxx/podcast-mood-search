@@ -29,7 +29,7 @@ export const usePodcastSearch = () => {
                 hasSearched: false,
                 error: null,
             }));
-            setPaginationState((prev) => ({ ...prev, hasMore: false }));
+            setPaginationState((prev) => ({ ...prev, hasMore: false, page: 1 }));
             return;
         }
 
@@ -66,6 +66,7 @@ export const usePodcastSearch = () => {
 
             setPaginationState((prev) => ({
                 ...prev,
+                page: pageNum, // 更新當前頁數
                 hasMore: result.hasMore,
             }));
         } catch (error: any) {
@@ -102,11 +103,10 @@ export const usePodcastSearch = () => {
 
     // 搜索詞變化時觸發搜索
     useEffect(() => {
-        const timeoutId = setTimeout(() => {
+        console.log('搜索詞變化時觸發搜索');
+        if (searchState.searchTerm) {
             searchPodcasts(searchState.searchTerm, 1, false);
-        }, 500);
-
-        return () => clearTimeout(timeoutId);
+        }
     }, [searchState.searchTerm, searchPodcasts]);
 
     return {

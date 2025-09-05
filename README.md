@@ -14,15 +14,15 @@
 
 - **AI 智能推薦**：整合 OpenAI API 進行語義分析和內容匹配
 - **安全防護**：Rate Limiting、IP 追蹤等多層防護
-- **高效能架構**：智慧快取、無限滾動、圖片懶加載
-- **模組化組件**：好維護的 React 組件設計
+- **模組化組件**：易維護的 React 組件設計
 - **響應式設計**：支援桌面端和行動裝置
+- **優質使用體驗**：防抖搜尋、圖片懶載入、無限滾動優化
 
 ## 技術架構
 
 ```
 前端：React 18 + TypeScript + Next.js 14 + Tailwind CSS
-AI：OpenAI GPT-3.5-turbo 語義分析
+AI整合：OpenAI GPT-3.5-turbo 語義分析
 API：Podcast Index API 內容整合
 部署：Vercel
 ```

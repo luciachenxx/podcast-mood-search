@@ -1,3 +1,8 @@
+interface RateLimitConfig {
+    windowMs: number;
+    maxRequests: number;
+}
+
 interface RateLimitStore {
     [key: string]: {
         count: number;
@@ -7,33 +12,39 @@ interface RateLimitStore {
 
 class RateLimiter {
     private store: RateLimitStore = {};
-    private windowMs: number;
-    private maxRequests: number;
+    private configs: Record<string, RateLimitConfig>;
 
-    constructor(windowMs = 60 * 1000, maxRequests = 10) {
-        // 1分鐘10次
-        this.windowMs = windowMs;
-        this.maxRequests = maxRequests;
+    constructor() {
+        this.configs = {
+            normal: { windowMs: 60 * 1000, maxRequests: 10 }, // 一般搜尋：每分鐘10次
+            pagination: { windowMs: 60 * 1000, maxRequests: 25 }, // 分頁請求：每分鐘25次
+            burst: { windowMs: 10 * 1000, maxRequests: 5 }, // 短時間突發：10秒內5次
+        };
     }
 
-    check(identifier: string): { allowed: boolean; remaining: number; resetTime: number } {
+    check(
+        identifier: string,
+        requestType: 'normal' | 'pagination' | 'burst' = 'normal'
+    ): { allowed: boolean; remaining: number; resetTime: number } {
+        const config = this.configs[requestType];
+        const storeKey = `${identifier}:${requestType}`;
         const now = Date.now();
-        const record = this.store[identifier];
+        const record = this.store[storeKey];
 
         if (!record || now > record.resetTime) {
             // 重置計數器
-            this.store[identifier] = {
+            this.store[storeKey] = {
                 count: 1,
-                resetTime: now + this.windowMs,
+                resetTime: now + config.windowMs,
             };
             return {
                 allowed: true,
-                remaining: this.maxRequests - 1,
-                resetTime: now + this.windowMs,
+                remaining: config.maxRequests - 1,
+                resetTime: now + config.windowMs,
             };
         }
 
-        if (record.count >= this.maxRequests) {
+        if (record.count >= config.maxRequests) {
             return {
                 allowed: false,
                 remaining: 0,
@@ -44,9 +55,15 @@ class RateLimiter {
         record.count++;
         return {
             allowed: true,
-            remaining: this.maxRequests - record.count,
+            remaining: config.maxRequests - record.count,
             resetTime: record.resetTime,
         };
+    }
+
+    // 檢查所有類型的限制（用於額外安全檢查）
+    checkAll(identifier: string): boolean {
+        const burstCheck = this.check(identifier, 'burst');
+        return burstCheck.allowed;
     }
 
     // 清理過期記錄
@@ -60,7 +77,7 @@ class RateLimiter {
     }
 }
 
-export const rateLimiter = new RateLimiter(60 * 1000, 10); // 每分鐘10次
+export const rateLimiter = new RateLimiter();
 
 // 定期清理
 setInterval(() => rateLimiter.cleanup(), 60 * 1000);

@@ -10,7 +10,7 @@ export class PodcastApiService {
         });
     }
 
-    async search(term: string, page: number = 1, pageSize: number = 10) {
+    async search(term: string, page: number = 1, pageSize: number = 20) {
         try {
             const response = await this.axiosInstance.get('/api/search', {
                 params: { q: term, page, pageSize },
@@ -26,6 +26,7 @@ export class PodcastApiService {
                 expansionNotice: data.expansionNotice || null,
                 suggestions: data.suggestions || [],
                 recommendedKeywords: data.recommendedKeywords || [],
+                pageSize: data.pagination?.pageSize || pageSize,
             };
         } catch (error: any) {
             console.error('API Error:', error);

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
+import { debounce } from '@/utils/debounce';
 
 interface SearchBarProps {
     value: string;
@@ -7,8 +8,17 @@ interface SearchBarProps {
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ value, onChange }) => {
+    const [displayValue, setDisplayValue] = useState(value); // 本地顯示值
+    const debouncedOnChange = useRef(debounce((value: string) => onChange(value), 500)).current;
+
+    useEffect(() => {
+        setDisplayValue(value);
+    }, [value]);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        onChange(e.target.value);
+        const newValue = e.target.value;
+        setDisplayValue(newValue); // 立即更新顯示
+        debouncedOnChange(newValue); // 防抖搜尋
     };
 
     return (
@@ -20,7 +30,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ value, onChange }) => {
                     <input
                         type="text"
                         placeholder="描述你現在的心情，例如：心情不好、想學習、壓力大..."
-                        value={value}
+                        value={displayValue}
                         onChange={handleChange}
                         className="w-full rounded-2xl bg-transparent py-6 pr-8 pl-16 text-lg text-amber-900 placeholder-amber-400 outline-none"
                     />
