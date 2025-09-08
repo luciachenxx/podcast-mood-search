@@ -5,7 +5,7 @@ import { searchPodcast, handleNoResults, createNoResultsResponse } from './servi
 import { createAuthHeaders } from '@/utils/auth';
 import { expandQueryLocally, shouldUseAiExpansion } from '@/utils/detection';
 import { scoreAndSortResults, addMatchReasons } from '@/utils/scoring';
-import { SearchResponse } from '@/types';
+import { SearchResponse, ScoredPodcastFeed } from '@/types';
 import { rateLimiter } from '@/lib/rateLimiter';
 import { getClientIP } from '@/lib/ipUtils';
 
@@ -65,7 +65,7 @@ export async function GET(request: Request) {
         const originalQuery = searchParams.get('q') || 'podcast';
         const preferChinese = searchParams.get('chinese') !== 'false';
         const page = parseInt(searchParams.get('page') || '1', 10);
-        const pageSize = parseInt(searchParams.get('pageSize') || '20', 10);
+        const pageSize = parseInt(searchParams.get('pageSize') || '', 10);
         const forceAI = searchParams.get('ai') === 'true';
 
         console.log(
@@ -86,7 +86,7 @@ export async function GET(request: Request) {
             const paginatedFeeds = allFeeds.slice(offset, offset + pageSize);
 
             // 添加匹配原因
-            const feedsWithReasons = addMatchReasons(
+            const feedsWithReasons: ScoredPodcastFeed[] = addMatchReasons(
                 paginatedFeeds,
                 originalQuery,
                 fullCachedResults.localExpandedQueries,
@@ -105,8 +105,10 @@ export async function GET(request: Request) {
                 },
                 stats: {
                     total: totalResults,
-                    chinese: paginatedFeeds.filter((feed) => feed.isChinese).length,
-                    nonChinese: paginatedFeeds.filter((feed) => !feed.isChinese).length,
+                    chinese: paginatedFeeds.filter((feed: ScoredPodcastFeed) => feed?.isChinese)
+                        .length,
+                    nonChinese: paginatedFeeds.filter((feed: ScoredPodcastFeed) => !feed.isChinese)
+                        .length,
                     usedAI: fullCachedResults.usedAI,
                     aiUsageRate: aiUsageCounter.getRate(),
                     usedExpansionStrategy: fullCachedResults.usedExpansionStrategy,

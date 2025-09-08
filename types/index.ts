@@ -14,7 +14,7 @@ export interface PodcastFeed {
     image?: string;
     episodeCount?: number;
     lastUpdateTime?: number;
-    [key: string]: any; // 允許其他屬性
+    [key: string]: any;
 }
 
 export interface ChineseAnalysis {
@@ -68,4 +68,10 @@ export interface NoResultsResponse {
     suggestions: string[];
     recommendedKeywords: string[];
     pagination: PaginationInfo;
+}
+
+export interface Feed {
+    id: string;
+    isChinese: boolean;
+    [key: string]: any;
 }
