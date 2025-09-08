@@ -32,8 +32,6 @@ export async function handleNoResults(
     headers: Record<string, string>,
     usedAI: boolean
 ): Promise<{ feeds: PodcastFeed[]; usedBackupStrategy: boolean }> {
-    console.log('⚠️ 初始搜索無結果，啟動擴展搜索策略');
-
     let allFeeds: PodcastFeed[] = [];
     let usedBackupStrategy = false;
 
@@ -43,14 +41,12 @@ export async function handleNoResults(
             if (allFeeds.length >= 10) break;
 
             const aiQuery = aiExpandedQueries[i];
-            console.log(`🔍 嘗試 AI 建議詞: "${aiQuery}"`);
 
             try {
                 const aiData = await searchPodcast(aiQuery, headers, 20);
                 if (aiData.feeds && aiData.feeds.length > 0) {
                     allFeeds = [...allFeeds, ...aiData.feeds];
                     usedBackupStrategy = true;
-                    console.log(`📈 AI 建議詞 "${aiQuery}" 找到 ${aiData.feeds.length} 個結果`);
                 }
             } catch (error) {
                 console.error(`AI 建議詞 "${aiQuery}" 搜索出錯:`, error);
@@ -63,8 +59,6 @@ export async function handleNoResults(
         const queryWords = originalQuery.split(/\s+/).filter((word) => word.length > 1);
 
         if (queryWords.length > 1) {
-            console.log(`🔍 分解查詢詞: ${queryWords.join(', ')}`);
-
             for (const word of queryWords) {
                 if (allFeeds.length >= 10) break;
 
@@ -79,7 +73,6 @@ export async function handleNoResults(
 
                         allFeeds = [...allFeeds, ...uniqueFeeds];
                         usedBackupStrategy = true;
-                        console.log(`📈 單詞 "${word}" 找到 ${wordData.feeds.length} 個結果`);
                     }
                 } catch (error) {
                     console.error(`單詞 "${word}" 搜索出錯:`, error);
@@ -92,7 +85,6 @@ export async function handleNoResults(
     if (allFeeds.length < 10) {
         // 智能選擇相關主題
         const relatedThemes = getRelatedThemes(originalQuery);
-        console.log(`🔍 嘗試相關主題: ${relatedThemes.join(', ')}`);
 
         for (const theme of relatedThemes) {
             if (allFeeds.length >= 20) break;
@@ -106,16 +98,11 @@ export async function handleNoResults(
 
                     allFeeds = [...allFeeds, ...uniqueFeeds];
                     usedBackupStrategy = true;
-                    console.log(`📈 主題 "${theme}" 找到 ${themeData.feeds.length} 個結果`);
                 }
             } catch (error) {
                 console.error(`主題 "${theme}" 搜索出錯:`, error);
             }
         }
-    }
-
-    if (allFeeds.length > 0) {
-        console.log(`✅ 擴展搜索找到了 ${allFeeds.length} 個結果`);
     }
 
     return { feeds: allFeeds, usedBackupStrategy };

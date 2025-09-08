@@ -1,5 +1,3 @@
-// 定義所有需要的類型，解決 TypeScript 錯誤
-
 export interface CacheEntry {
     timestamp: number;
     data: any;

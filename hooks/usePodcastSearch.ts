@@ -103,7 +103,6 @@ export const usePodcastSearch = () => {
 
     // 搜索詞變化時觸發搜索
     useEffect(() => {
-        console.log('搜索詞變化時觸發搜索');
         if (searchState.searchTerm) {
             searchPodcasts(searchState.searchTerm, 1, false);
         }
